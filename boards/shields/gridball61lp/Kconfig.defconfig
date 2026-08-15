@@ -1,0 +1,14 @@
+
+if SHIELD_GRIDBALL61LP_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "gridball61lp"
+
+endif
+
+if SHIELD_GRIDBALL61LP_LEFT || SHIELD_GRIDBALL61LP_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

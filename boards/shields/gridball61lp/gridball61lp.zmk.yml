@@ -1,0 +1,14 @@
+
+file_format: "1"
+id: gridball61lp
+name: gridball61lp
+type: shield
+features:
+  - keys
+  - studio
+outputs:
+  - usb
+  - ble
+siblings:
+  - gridball61lp_left
+  - gridball61lp_right
