@@ -50,8 +50,29 @@
         compatible = "zmk,input-listener";
         device = <&trackball>;
         /* Sensor is mounted rotated 180 degrees, which already inverts both
-         * axes, so no additional X/Y inversion is applied here. */
-        input-processors = <&zip_xy_transform 0>;
+         * axes, so no additional X/Y inversion is applied here.
+         *
+         * zip_xy_scaler <mult div> でカーソル感度を調整する (端数は内部で
+         * 保持されるので、遅い動きの精度は落ちない)。
+         *   1 2 = 1/2 (既定, 感度半分) / 1 3 = 1/3 (さらに遅く) / 2 3 = 2/3
+         * さらに大きく下げたい場合は下の trackball ノードに
+         * res-cpi = <608>; (最小値) を追加してセンサ側の解像度も落とす。
+         */
+        input-processors = <&zip_xy_transform 0>, <&zip_xy_scaler 1 2>;
+
+        /* mo 2 (layer 2) を押している間はトラックボールをスクロールにする。
+         * 一致した override が処理されると base の processors は実行されない
+         * ため、ここに必要な processor をすべて並べている。
+         * INPUT_TRANSFORM_Y_INVERT: ボールを前に転がすと上方向スクロール。
+         *   逆方向が好みなら 0 に変更する。
+         * zip_scroll_scaler <mult div>: div を大きくするとスクロールが遅くなる。
+         */
+        scroller {
+            layers = <2>;
+            input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
+                               <&zip_xy_to_scroll_mapper>,
+                               <&zip_scroll_scaler 1 30>;
+        };
     };
 };
 

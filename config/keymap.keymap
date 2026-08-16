@@ -4,6 +4,37 @@
 #include <dt-bindings/zmk/mouse.h>
 #include <dt-bindings/zmk/bt.h>
 
+/*
+ * OS が日本語(JIS)配列のときに記号を意図どおり出すための定義。
+ * ZMK は US 配列の HID コードを送るため、JIS の OS では記号がずれる。
+ * 例) &kp LBKT は JIS OS では @ になるので、[ を出すには RBKT を送る。
+ * (OS を US 配列に変更する場合は、このブロックを削除して素の LBKT 等に戻すこと)
+ */
+#define JP_MINUS  MINUS      /* -  */
+#define JP_CARET  EQUAL      /* ^  */
+#define JP_YEN    INT3       /* ¥ */
+#define JP_AT     LBKT       /* @  */
+#define JP_LBKT   RBKT       /* [  */
+#define JP_SEMI   SEMI       /* ;  */
+#define JP_COLON  SQT        /* :  */
+#define JP_RBKT   BSLH       /* ]  */
+#define JP_BSLH   INT1       /* バックスラッシュ (ろ) */
+#define JP_ZKHK   GRAVE      /* 半角/全角 */
+#define JP_EQUAL  LS(MINUS)  /* =  */
+#define JP_TILDE  LS(EQUAL)  /* ~  */
+#define JP_PIPE   LS(INT3)   /* |  */
+#define JP_GRAVE  LS(LBKT)   /* `  */
+#define JP_LBRC   LS(RBKT)   /* {  */
+#define JP_PLUS   LS(SEMI)   /* +  */
+#define JP_ASTRK  LS(SQT)    /* *  */
+#define JP_RBRC   LS(BSLH)   /* }  */
+#define JP_UNDER  LS(INT1)   /* _  */
+#define JP_DQT    LS(N2)     /* "  */
+#define JP_AMPS   LS(N6)     /* &  */
+#define JP_SQT    LS(N7)     /* '  */
+#define JP_LPAR   LS(N8)     /* (  */
+#define JP_RPAR   LS(N9)     /* )  */
+
 / {
     conditional_layers {
         compatible = "zmk,conditional-layers";
@@ -18,51 +49,51 @@
 
         layer_0 {
             bindings =<
-                &kp ESC   &kp N1       &kp N2                    &kp N3       &kp N4       &kp N5                                   &kp N6   &kp N7    &kp N8    &kp N9    &kp N0      &kp MINUS
-                &kp TAB   &kp Q        &kp W                     &kp E        &kp R        &kp T                                    &kp Y    &kp U     &kp I     &kp O     &kp P       &kp LBKT
-                &kp LCTRL &kp A        &kp S                     &kp D        &kp F        &kp G                                    &kp H    &kp J     &kp K     &kp L     &kp SEMI    &kp SQT
-                &kp LSHFT &kp Z        &kp X                     &kp C        &kp V        &kp B        &kp LBKT          &kp RBKT  &kp N    &kp M     &kp COMMA &kp DOT   &kp FSLH    &kp INT1
-                &mo 4     &mo 2        &kp LGUI                  &kp LALT     &kp LANG2    &mo 2        &kp LANG1         &kp SPACE &mo 1                                  &mo 1       &kp PIPE
+                &kp ESC   &kp N1       &kp N2                    &kp N3       &kp N4       &kp N5                           &kp N6   &kp N7    &kp N8    &kp N9    &kp N0      &kp JP_MINUS
+                &kp TAB   &kp Q        &kp W                     &kp E        &kp R        &kp T                            &kp Y    &kp U     &kp I     &kp O     &kp P       &kp JP_LBKT
+                &kp LCTRL &kp A        &kp S                     &kp D        &kp F        &kp G                            &kp H    &kp J     &kp K     &kp L     &kp JP_SEMI &kp JP_SQT
+                &kp LSHFT &kp Z        &kp X                     &kp C        &kp V        &kp B        &kp LANG2 &kp SPACE &kp N    &kp M     &kp COMMA &kp DOT   &kp FSLH    &kp JP_BSLH
+                &mo 4     &mo 2        &kp LGUI                  &kp LALT     &kp LANG2    &mo 2        &kp LANG1 &kp SPACE &mo 1                                  &mo 1       &kp JP_PIPE
             >;
         };
 
         layer_1 {
             bindings =<
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &kp CARET
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &kp AT      &kp RBKT
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &kp BSPC &kp RET   &trans    &kp DEL   &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans                                 &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &kp JP_CARET
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &kp JP_AT   &kp JP_RBKT
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &kp BSPC &kp RET   &trans    &kp DEL   &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &kp LANG1 &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;
         };
 
         layer_2 {
             bindings =<
-                &trans    &kp F1       &kp F2                    &kp F3       &kp F4       &kp F5                                   &kp F6   &kp F7    &kp F8    &kp F9    &kp F10     &kp F11
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &trans   &trans    &kp F2    &trans    &kp F12     &kp ESC
-                &trans    &trans       &mkp RCLK                 &mkp MCLK    &mkp LCLK    &trans                                   &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans      &kp LC(INS)
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans      &kp LS(INS)
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &kp LALT                               &trans      &trans
+                &trans    &kp F1       &kp F2                    &kp F3       &kp F4       &kp F5                           &kp F6   &kp F7    &kp F8    &kp F9    &kp F10     &kp F11
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &kp F2    &trans    &kp F12     &kp ESC
+                &trans    &trans       &mkp RCLK                 &mkp MCLK    &mkp LCLK    &trans                           &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans      &kp LC(INS)
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans      &kp LS(INS)
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp LALT                               &trans      &trans
             >;
         };
 
         layer_3 {
             bindings =<
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &mt (MOD_LSFT|MOD_LGUI) S &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans                                 &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &mt (MOD_LSFT|MOD_LGUI) S &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;
         };
 
         layer_4 {
             bindings =<
-                &trans    &bt BT_SEL 0 &bt BT_SEL 1              &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                             &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &bt BT_CLR   &trans                    &trans       &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &kp C_VOL_DN &kp C_VOL_UP              &kp C_MUTE   &trans       &trans                                   &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans            &trans    &trans                                 &trans      &trans
+                &trans    &bt BT_SEL 0 &bt BT_SEL 1              &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                     &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &bt BT_CLR   &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &kp C_VOL_DN &kp C_VOL_UP              &kp C_MUTE   &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;
         };
     };
