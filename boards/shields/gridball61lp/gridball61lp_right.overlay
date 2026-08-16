@@ -49,7 +49,9 @@
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+        /* Sensor is mounted rotated 180 degrees, which already inverts both
+         * axes, so no additional X/Y inversion is applied here. */
+        input-processors = <&zip_xy_transform 0>;
     };
 };
 
