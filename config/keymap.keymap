@@ -79,11 +79,11 @@
 
         layer_3 {
             bindings =<
-                &trans    &trans       &trans            &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans            &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &mt (LS | LGUI) S &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans            &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans            &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &kp LS(LG(S))             &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;
         };
 
