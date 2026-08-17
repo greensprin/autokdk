@@ -72,18 +72,18 @@
                 &trans    &kp F1       &kp F2                    &kp F3       &kp F4       &kp F5                           &kp F6   &kp F7    &kp F8    &kp F9    &kp F10     &kp F11
                 &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &kp F2    &trans    &kp F12     &kp ESC
                 &trans    &trans       &mkp RCLK                 &mkp MCLK    &mkp LCLK    &trans                           &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans      &kp LC(INS)
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans      &kp LS(INS)
+                &mo 5     &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans      &kp LS(INS)
                 &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &kp LALT  &trans                                 &trans      &trans
             >;
         };
 
         layer_3 {
             bindings =<
-                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &mt (MOD_LSFT|MOD_LGUI) S &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
+                &trans    &trans       &trans            &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans            &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &mt (LS | LGUI) S &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans            &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans            &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;
         };
 
@@ -92,6 +92,22 @@
                 &trans    &bt BT_SEL 0 &bt BT_SEL 1              &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                     &trans   &trans    &trans    &trans    &trans      &trans
                 &trans    &bt BT_CLR   &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
                 &trans    &kp C_VOL_DN &kp C_VOL_UP              &kp C_MUTE   &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
+            >;
+        };
+
+        /*
+         * layer_5: 横スクロール用。layer_2 の Shift 位置 (&mo 5) を押している間だけ有効。
+         * キー自体はすべて素通しで、トラックボールを縦スクロールから横スクロールに
+         * 切り替えるためだけに存在する
+         * (gridball61lp_right.overlay の h_scroller override を参照)。
+         */
+        layer_5 {
+            bindings =<
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &trans    &trans    &trans      &trans
                 &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans   &trans    &trans    &trans    &trans      &trans
                 &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &trans                                 &trans      &trans
             >;

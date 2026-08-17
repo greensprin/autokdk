@@ -46,28 +46,23 @@
             ;
     };
 
-    /* 横スクロール(HWHEEL)だけに掛ける専用スケーラ。
-     * 標準の zip_scroll_scaler と違って track-remainders を付けていないので
-     * 端数が切り捨てられる = 小さい横成分を捨てるデッドゾーンとして働く。
-     * <1 N> で「1 イベントの横移動量が N 未満なら 0 にする」。
-     * N を大きくするほど横に転がりにくくなる (縦スクロール時の斜めズレが減る)。
+    /* 標準の zip_xy_to_scroll_mapper は X→HWHEEL / Y→WHEEL の両方を出すので
+     * 斜めに転がすと縦横が混ざる。ここでは軸を片方だけ通すマッパーを定義する。
+     * 捨てたい軸は INPUT_REL_MISC に飛ばす — input listener は X/Y/WHEEL/HWHEEL
+     * 以外の rel コードを何もせず読み捨てるので、確実にゼロになる。
      */
-    zip_hscroll_deadzone: zip_hscroll_deadzone {
-        compatible = "zmk,input-processor-scaler";
-        #input-processor-cells = <2>;
+    zip_y_to_vscroll_only: zip_y_to_vscroll_only {
+        compatible = "zmk,input-processor-code-mapper";
+        #input-processor-cells = <0>;
         type = <INPUT_EV_REL>;
-        codes = <INPUT_REL_HWHEEL>;
+        map = <INPUT_REL_Y INPUT_REL_WHEEL>, <INPUT_REL_X INPUT_REL_MISC>;
     };
 
-    /* デッドゾーンで 1/N に減った分を掛け戻すためのスケーラ (同じく端数保持なし)。
-     * <N 1> と、上の deadzone の N を必ず揃えること。これで
-     * 「閾値を超えた横移動は元の速度のまま」を保てる。
-     */
-    zip_hscroll_gain: zip_hscroll_gain {
-        compatible = "zmk,input-processor-scaler";
-        #input-processor-cells = <2>;
+    zip_x_to_hscroll_only: zip_x_to_hscroll_only {
+        compatible = "zmk,input-processor-code-mapper";
+        #input-processor-cells = <0>;
         type = <INPUT_EV_REL>;
-        codes = <INPUT_REL_HWHEEL>;
+        map = <INPUT_REL_X INPUT_REL_HWHEEL>, <INPUT_REL_Y INPUT_REL_MISC>;
     };
 
     trackball_listener: trackball_listener {
@@ -91,18 +86,23 @@
          *   逆方向が好みなら 0 に変更する。
          * zip_scroll_scaler <mult div>: div を大きくするとスクロールが遅くなる。
          *
-         * zip_hscroll_deadzone / zip_hscroll_gain のペアで横スクロールにだけ
-         * デッドゾーンを掛けている。縦に転がしたときの微小な横ブレが消えるので、
-         * 斜めスクロールにならない。横に転がしたいときは、はっきり横に動かす。
-         * 横が出すぎる → 4 を大きく (5, 6, ...) / 横に動かしても効かない → 小さく (3, 2)。
-         * 2 か所の数値は必ず同じ値にすること。
+         * 縦と横は完全に排他。既定は縦スクロールのみで、layer 2 の Shift 位置に
+         * 置いた &mo 5 (= layer 5) を押している間だけ横スクロールのみになる。
+         *
+         * !! override は「最初にマッチしたもの」だけが実行される。layer 2 と
+         *    layer 5 は同時に有効になるので、横 (layer 5) を必ず先に書くこと。
          */
-        scroller {
+        h_scroller {
+            layers = <5>;
+            input-processors = <&zip_xy_transform 0>,
+                               <&zip_x_to_hscroll_only>,
+                               <&zip_scroll_scaler 1 30>;
+        };
+
+        v_scroller {
             layers = <2>;
             input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-                               <&zip_xy_to_scroll_mapper>,
-                               <&zip_hscroll_deadzone 1 4>,
-                               <&zip_hscroll_gain 4 1>,
+                               <&zip_y_to_vscroll_only>,
                                <&zip_scroll_scaler 1 30>;
         };
     };
