@@ -73,7 +73,7 @@
                 &trans    &trans       &trans                    &trans       &trans       &trans                           &trans   &trans    &kp F2    &trans    &kp F12     &kp ESC
                 &trans    &trans       &mkp RCLK                 &mkp MCLK    &mkp LCLK    &trans                           &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans      &kp LC(INS)
                 &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans      &kp LS(INS)
-                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &trans    &kp LALT                               &trans      &trans
+                &trans    &trans       &trans                    &trans       &trans       &trans       &trans    &kp LALT  &trans                                 &trans      &trans
             >;
         };
 
