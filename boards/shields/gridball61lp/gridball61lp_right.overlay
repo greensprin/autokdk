@@ -58,11 +58,14 @@
         map = <INPUT_REL_Y INPUT_REL_WHEEL>, <INPUT_REL_X INPUT_REL_MISC>;
     };
 
-    zip_x_to_hscroll_only: zip_x_to_hscroll_only {
+    /* 横スクロールもボールを縦 (前後) に転がして操作したいので、Y 軸を
+     * HWHEEL に割り当てる。X 軸は捨てる。
+     */
+    zip_y_to_hscroll_only: zip_y_to_hscroll_only {
         compatible = "zmk,input-processor-code-mapper";
         #input-processor-cells = <0>;
         type = <INPUT_EV_REL>;
-        map = <INPUT_REL_X INPUT_REL_HWHEEL>, <INPUT_REL_Y INPUT_REL_MISC>;
+        map = <INPUT_REL_Y INPUT_REL_HWHEEL>, <INPUT_REL_X INPUT_REL_MISC>;
     };
 
     trackball_listener: trackball_listener {
@@ -88,14 +91,16 @@
          *
          * 縦と横は完全に排他。既定は縦スクロールのみで、layer 2 の Shift 位置に
          * 置いた &mo 5 (= layer 5) を押している間だけ横スクロールのみになる。
+         * 横スクロールもボールは縦 (前後) に転がす: 前に転がすと右方向。
+         * 逆が好みなら h_scroller の INPUT_TRANSFORM_Y_INVERT を 0 にする。
          *
          * !! override は「最初にマッチしたもの」だけが実行される。layer 2 と
          *    layer 5 は同時に有効になるので、横 (layer 5) を必ず先に書くこと。
          */
         h_scroller {
             layers = <5>;
-            input-processors = <&zip_xy_transform 0>,
-                               <&zip_x_to_hscroll_only>,
+            input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
+                               <&zip_y_to_hscroll_only>,
                                <&zip_scroll_scaler 1 30>;
         };
 
