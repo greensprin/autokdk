@@ -88,6 +88,9 @@
          * INPUT_TRANSFORM_Y_INVERT: ボールを前に転がすと上方向スクロール。
          *   逆方向が好みなら 0 に変更する。
          * zip_scroll_scaler <mult div>: div を大きくするとスクロールが遅くなる。
+         *   div カウント貯まるごとにホイール 1 ノッチ。センサーが約 800cpi
+         *   なので目安は 30 = 約1mm / 100 = 約3mm / 150 = 約5mm / 240 = 約8mm。
+         *   端数は内部に蓄積されるので、遅い動きが無視されるわけではない。
          *
          * 縦と横は完全に排他。既定は縦スクロールのみで、layer 2 の Shift 位置に
          * 置いた &mo 5 (= layer 5) を押している間だけ横スクロールのみになる。
@@ -101,14 +104,14 @@
             layers = <5>;
             input-processors = <&zip_xy_transform 0>,
                                <&zip_y_to_hscroll_only>,
-                               <&zip_scroll_scaler 1 30>;
+                               <&zip_scroll_scaler 1 150>;
         };
 
         v_scroller {
             layers = <2>;
             input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
                                <&zip_y_to_vscroll_only>,
-                               <&zip_scroll_scaler 1 30>;
+                               <&zip_scroll_scaler 1 150>;
         };
     };
 };
