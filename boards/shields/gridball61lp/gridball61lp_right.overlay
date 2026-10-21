@@ -80,7 +80,7 @@
          * さらに大きく下げたい場合は下の trackball ノードに
          * res-cpi = <608>; (最小値) を追加してセンサ側の解像度も落とす。
          */
-        input-processors = <&zip_xy_transform 0>, <&zip_xy_scaler 1 2>;
+        input-processors = <&zip_xy_transform 0>, <&zip_xy_scaler 3 5>;
 
         /* mo 2 (layer 2) を押している間はトラックボールをスクロールにする。
          * 一致した override が処理されると base の processors は実行されない
